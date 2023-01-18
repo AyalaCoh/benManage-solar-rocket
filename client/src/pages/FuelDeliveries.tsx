@@ -101,16 +101,12 @@ const [thistDate, setThisDate] = useState<Date | null>(null);
         {fuelDelivery.map((fd:{ type: string, quantity: 0,unit: string,icon: string}) => (
           <Grid item key={8}> 
            <Card sx={{ width: 275, height: 200 }}>
-            <CardHeader
-                    type=  {fd.type}
-                    unit=  {fd.unit}
-                    quantity={fd.quantity} 
-                  />
            <CardContent>
-           <Typography noWrap>
-           quantity:  {fd.quantity} <br/>
+           <Typography noWrap>        
+          <img src={fd.icon}  alt="icon"/><br/>
+           type:  {fd.quantity} <br/>
+           quantity:  {fd.type}<br/>
            unit:  {fd.unit}<br/>
-           quantity:  {fd.type}
            </Typography>
         
         </CardContent>
