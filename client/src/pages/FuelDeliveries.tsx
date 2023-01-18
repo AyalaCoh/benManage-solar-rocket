@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, CardHeader, CircularProgress, Container, Grid, IconButton, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, CardContent, CircularProgress, Container, Grid,Snackbar,Typography } from "@mui/material";
 import { AppLayout } from "../layouts/AppLayout";
 import {getFuelDeliveries,getDays} from '../components/getFuelDeliveries'
 import { useEffect,useState } from "react";
@@ -27,11 +27,8 @@ const FuelDeliveries = (): JSX.Element => {
  
 const [errMessage,setErrMessage] = useState<String | null>(null);
 const [deliveryDates,setDeliveryDates] = useState<String[] | null>(null);
-const [flag,setFlag] = useState<Boolean>(false);
 const [count,setCount] = useState<number>(0);
 const [fuelDelivery,setFuelDelivery] = useState<[{ type: string, quantity: 0,unit: string,icon: string}] | null>(null);
-const [thistDate, setThisDate] = useState<Date | null>(null);
-
 
   const getfuelDelivery = async (num : number)=>{    
     setCount(num);
@@ -86,18 +83,17 @@ const [thistDate, setThisDate] = useState<Date | null>(null);
     </Typography>
     <Typography variant="h6" component="h3">
            {
-            deliveryDates?<>Deliveries on the next {count+1} st day in date:{deliveryDates[count]}
-            </>:<></>   
+            deliveryDates?(<>Deliveries on the next {count+1} st day in date:{deliveryDates[count]}
+            {
+              ()=>{getfuelDelivery(0)}
+            } </>):<></>   
           }
 
 
           </Typography>
-        {/* {
-       deliveryDates? <>{()=>{setFlag(true)}},{deliveryDates[0]} ,{deliveryDates[1]} ,{deliveryDates[2]} ,{deliveryDates[3]} ,{deliveryDates[4]}<br/></> : <>no</>
-        } */}
         {
         fuelDelivery  ? ( <Grid container spacing={2}> 
-        {" "}
+        {"    "}
         {fuelDelivery.map((fd:{ type: string, quantity: 0,unit: string,icon: string}) => (
           <Grid item key={8}> 
            <Card sx={{ width: 275, height: 200 }}>
@@ -118,13 +114,21 @@ const [thistDate, setThisDate] = useState<Date | null>(null);
           </Box>
         )
         }
-        {/* {fuelDelivery[0].quantity},{fuelDelivery[0].unit},{fuelDelivery[0].type} */}
       <Button onClick={ ()=>{getfuelDelivery(0)}}>See the deliveries for the next day</Button><br/>
       <Button onClick={ ()=>{getfuelDelivery(1)}}>See the deliveries for the next two days</Button><br/>
       <Button onClick={ ()=>{getfuelDelivery(2)}}>See the deliveries for another three days</Button><br/>
       <Button onClick={ ()=>{getfuelDelivery(3)}}>See the deliveries for another four days</Button><br/>
       <Button onClick={ ()=>{getfuelDelivery(4)}}>See the deliveries for another five days</Button>
       </Container>
+      <Snackbar
+        open={errMessage != null}
+        autoHideDuration={5000}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert variant="filled" severity="error">
+          {errMessage}
+        </Alert>
+      </Snackbar>
     </AppLayout>
   );
 };
